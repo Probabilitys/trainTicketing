@@ -6,6 +6,7 @@ import api from './api';
 const ScheduleTable = ( {scheduleData, isAdmin, handleBack, handleEdit, handleCreateButton} ) => {
 
     const [schedules, setSchedules] = useState([])
+    const [after, setAfter] = useState('')
 
     useEffect(() => {
         const fetchSchedules = async () => {
@@ -26,12 +27,51 @@ const ScheduleTable = ( {scheduleData, isAdmin, handleBack, handleEdit, handleCr
         fetchSchedules()
     }, [])
 
+    const handleSearch = async () => {
+        try {
+            const response = await api.get(`/schedule/list/after/${after}`)
+            setSchedules(response.data)
+        }
+        catch (err) {
+            if (err.response) {
+                // Not in the 200 reponse range
+                console.log(err.response)
+                
+            }
+            else {
+                console.log(`Error: ${err.message}`)
+            }
+        }
+    }
+
+    const showAll = async () => {
+        try {
+            const response = await api.get('/schedule/list')
+            setSchedules(response.data)
+        }
+        catch (err) {
+            if (err.response) {
+                // Not in the 200 reponse range
+                console.log(err.response)
+                
+            }
+            else {
+                console.log(`Error: ${err.message}`)
+            }
+        }
+    }
+
     return (
         <div className='schedule-table-container'>
             <h2>Schedule List</h2>
             <div>
                 {isAdmin && <button onClick={handleCreateButton}>Create Schedule</button>}
+                <button onClick={showAll}>Show All</button>
                 <button onClick={handleBack}>Back</button>                    
+            </div>
+            <div>
+                <input type="number" value={after} onChange={(e) => setAfter(e.target.value)} />
+                <button onClick={handleSearch}>Search Schedule</button> 
             </div>
             <table border="1" className='schedule-table'>
                 <thead>
