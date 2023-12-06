@@ -31,6 +31,9 @@ const TicketTable = ( {train, schedule, isAdmin, handleEdit, handleCreateButton}
             price_paid: item.price_paid
         }
         const response = await api.post(`/ticket/delete/${item.id}`, deleteTicket)
+        await api.get(`/train/tickets/${train}/${schedule}`)
+        setTickets(response.data)
+        alert(`A refund of $${item.price_paid} has been issued to ${item.customer_name}.`)
     }
 
 
