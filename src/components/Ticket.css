@@ -1,0 +1,21 @@
+.ticket-container, .ticket-form-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticket-form-container {
+    padding: 30px;
+    margin: 30px auto;
+    border: 1px solid black;
+}
+
+label {
+    float: right;
+}
+
+td {
+    padding: 10px;
+}

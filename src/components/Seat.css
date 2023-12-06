@@ -1,0 +1,25 @@
+.seat-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.seat-form-container {
+    padding: 30px;
+    margin: 30px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+label {
+    float: right;
+}
+
+td {
+    padding: 10px;
+}
