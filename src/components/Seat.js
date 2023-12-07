@@ -73,7 +73,7 @@ const Seat = ( {isAdmin} ) => {
         :
         <SeatTable
             train={train}
-            schedule_id={schedule}
+            schedule={schedule}
             seatData={seats}
             handleCreateButton={handleCreateButton}
             handleEdit={handleEdit}

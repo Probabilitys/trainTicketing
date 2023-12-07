@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BookSeat from './BookSeat';
 import api from './api';
 
-const SeatTable = ( {train, schedule_id, seatData, handleCreateButton, handleEdit, isAdmin} ) => {
+const SeatTable = ( {train, schedule, seatData, handleCreateButton, handleEdit, isAdmin} ) => {
 
     const [seats, setSeats] = useState([])
+    const [isBook, setIsBook] = useState(false)
+    const [bookingSeat, setBookingSeat] = useState(null)
 
     useEffect(() => {
         const fetchSeats = async () => {
@@ -21,7 +24,7 @@ const SeatTable = ( {train, schedule_id, seatData, handleCreateButton, handleEdi
 
     const showAvailable = async () => {
         try {
-            const response = await api.get(`/train/available_seats/${train}/${schedule_id}`)
+            const response = await api.get(`/train/available_seats/${train}/${schedule}`)
             setSeats(response.data)
         }
         catch (err) {
@@ -53,7 +56,27 @@ const SeatTable = ( {train, schedule_id, seatData, handleCreateButton, handleEdi
         }
     }
 
+    const handleBook = (item) => {
+        setBookingSeat(item)
+        setIsBook(true)
+    }
+
+    const handleBack = () => {
+        setIsBook(false)
+    }
+
     return (
+        <>
+        {
+        isBook
+        ?
+        <BookSeat 
+            train={train}
+            schedule={schedule}
+            bookingSeat={bookingSeat} 
+            handleBack={handleBack}
+        />
+        :
         <div className='seat-container'>
             <h2>Seat List</h2>
             <div>
@@ -64,7 +87,7 @@ const SeatTable = ( {train, schedule_id, seatData, handleCreateButton, handleEdi
                     <button>Back</button>
                 </Link>                 
             </div>
- 
+
             <table border="1">
                 <thead>
                     <tr>
@@ -83,14 +106,16 @@ const SeatTable = ( {train, schedule_id, seatData, handleCreateButton, handleEdi
                             <td>{item.name}</td>
                             <td>{item.price}</td>
                             <td>
+                                <button onClick={() => handleBook(item)}>Book</button>
                                 <button onClick={() => handleEdit(item.id)}>Edit</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
- 
         </div>
+        }
+        </>
     )
 }
 
